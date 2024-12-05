@@ -1,0 +1,231 @@
+package entity;
+
+import main.GamePanel;
+import tile.Tile;
+import tile.TileManager;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Objects;
+import java.util.Random;
+
+public class Inky extends Entity {
+    BufferedImage image;
+    TileManager tileManager;
+    GamePanel gamePanel;
+    boolean exit = false;
+    String[] directions = {"UP v", "DOWN", "LEFT", "RIGHT"};
+    Random random = new Random();
+    int randomInt;
+    String nextStep;
+    String direction =  "def" ;
+
+
+    public Inky(GamePanel gamePanel, TileManager tileManager) {
+        this.gamePanel = gamePanel;
+        this.tileManager = tileManager;
+        setDefaultValue();
+        getImage();
+
+    }
+
+    @Override
+    public void update() {
+        if (!exit) {
+            exit(); // בצע את פעולת היציאה
+        } else {
+            chooseDirection();
+//            move();
+        }
+
+    }
+
+    @Override
+    public void move(){
+        int  indexTile = getNumOfTile(direction);
+        Tile[] tiles = tileManager.tile;
+
+        if (direction.equals("up") && !tiles[indexTile].isBlocked){
+            y -= speed;
+
+        } else if (direction.equals("down") && !tiles[indexTile].isBlocked) {
+            y += speed;
+
+        } else if (direction.equals("right") && !tiles[indexTile].isBlocked) {
+            x += speed;
+
+        } else if (direction.equals("left") && !tiles[indexTile].isBlocked) {
+            x -= speed;
+
+        }
+    }
+
+    @Override
+    public void setDefaultValue() {
+        this.x = 275;
+        this.y = 375;
+        this.speed = 3;
+        this.life = 1;
+    }
+
+    public void exit() {
+        // אם הרוח עדיין לא הגיעה למיקום הרצוי בציר ה-X
+        if (x < 325) {
+            x += speed;
+        }
+        // אם הרוח עדיין לא הגיעה למיקום הרצוי בציר ה-Y
+        else if (y > 250) {
+            y -= speed;
+        }
+        // אם הרוח הגיעה ליעד
+        else {
+            exit = true; // ציין שהיציאה הושלמה
+        }
+    }
+
+
+    @Override
+    public int[] changeDirection(String nextStep){
+        System.out.println("changeDirection start, next step: " + nextStep);
+        alignToTile();
+        int index = getNumOfTile(nextStep);
+        Tile cureentTile = null;
+
+
+        if (!nextStep.equals("def") && index >= 0) {
+            System.out.println("xxx");
+            cureentTile = tileManager.tile[index];
+
+            if (!cureentTile.isBlocked){
+                System.out.println("yyy");
+                direction = nextStep;
+                System.out.println("direction from changeDirection:  " + direction);
+            }
+        }
+        return null;
+    }
+
+
+        public void alignToTile() {
+            int tileSize = gamePanel.tileSize;
+
+            // חשב את השאריות על ציר X ו-Y
+            int gapX = x % tileSize;
+            int gapY = y % tileSize;
+
+            // אם השארית קטנה מ-speed, התאם את המיקום
+            if (gapX > 0 && gapX < speed) {
+                x -= gapX; // יישור שמאלה
+            } else if (gapX > tileSize - speed) {
+                x += (tileSize - gapX); // יישור ימינה
+            }
+
+            if (gapY > 0 && gapY < speed) {
+                y -= gapY; // יישור למעלה
+            } else if (gapY > tileSize - speed) {
+                y += (tileSize - gapY); // יישור למטה
+            }
+        }
+
+        public int getNumOfTile(String nextPoint){
+            int[] index = getNumOfTileIndex(nextPoint);
+            if (index[0] >= 0 && index[1] >= 0){
+                return tileManager.getMap()[(index[0])][(index[1])];
+            }
+            return -1;
+        }
+
+        public int[] getNumOfTileIndex(String nextPoint) {
+            int row = -1, col = -1;
+            int tileSize = gamePanel.tileSize;
+
+            System.out.println("Direction: " + nextPoint);
+            System.out.println("Current Position: x = " + x + ", y = " + y);
+
+            switch (nextPoint) {
+                case "up" -> {
+                    row = (y - speed) / tileSize;
+                    int xLeft = x / tileSize;
+                    int xRight = (x + tileSize - 1) / tileSize;
+                    if (xRight == xLeft) col = xLeft;
+                }
+                case "down" -> {
+                    row = (y + tileSize - 1 + speed) / tileSize;
+                    int xLeft = x / tileSize;
+                    int xRight = (x + tileSize - 1) / tileSize;
+                    if (xRight == xLeft) col = xLeft;
+                }
+                case "left" -> {
+                    col = (x - speed) / tileSize;
+                    int yUp = y / tileSize;
+                    int yDown = (y + tileSize - 1) / tileSize;
+                    if (yUp == yDown) row = yUp;
+                }
+                case "right" -> {
+                    col = (x + tileSize - 1 + speed) / tileSize;
+                    int yUp = y / tileSize;
+                    int yDown = (y + tileSize - 1) / tileSize;
+                    if (yUp == yDown) row = yUp;
+                }
+            }
+
+            System.out.println("Calculated Position: row = " + row + ", col = " + col);
+
+            // בדיקה אם האינדקסים חוקיים
+            if (row >= 0 && row < gamePanel.maxScreenRow && col >= 0 && col < gamePanel.maxScreenCol) {
+                System.out.println("Valid Position: row = " + row + ", col = " + col);
+                return new int[]{row, col};
+            }
+
+            System.out.println("Invalid Position: Returning [-1, -1]");
+            return new int[]{-1, -1};
+        }
+
+
+
+
+
+//            System.out.println("!blocked");
+//            direction = nextStep;
+//            System.out.println("start move ");
+//            movePlayer();
+
+//        else {
+//
+//        System.out.println("blocked");
+//        }
+
+
+    @Override
+    public void chooseDirection() {
+         randomInt = random.nextInt(directions.length);
+         nextStep = directions[randomInt];
+         changeDirection(nextStep);
+    }
+
+
+    public void getImage(){
+        try {
+            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/image/ghost-inky-down.png")));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void draw(Graphics g)  {
+        g.drawImage(image, x, y , gamePanel.tileSize, gamePanel.tileSize, null );
+//        g.setColor(Color.green);
+//g.fillRect(x, y, gamePanel.tileSize, gamePanel.tileSize);
+    }
+}
+
+
+
+
+
+
+

@@ -1,0 +1,535 @@
+
+
+//package entity;
+//
+//import main.GamePanel;
+//import main.KeyHandler;
+//import tile.Tile;
+//import tile.TileManager;
+//import javax.imageio.ImageIO;
+//
+//import java.awt.*;
+//import java.awt.image.BufferedImage;
+//import java.io.File;
+//import java.io.IOException;
+//import java.util.Arrays;
+//import java.util.Objects;
+//
+//
+//public class Player extends Entity {
+//    GamePanel gamePanel;
+//    KeyHandler keyHandler;
+//    TileManager tileManager;
+//    private Image image; // משתנה התמונה במחלקת Player בלבד
+//    public String direction = "def";
+//    public int score = 0;
+//    private BufferedImage upImage, downImage, leftImage, rightImage, defImage;
+//
+//
+////
+//
+//    public Player(GamePanel gamePanel, KeyHandler keyHandler, TileManager tileManager) {
+//        this.gamePanel = gamePanel;
+//        this.keyHandler = keyHandler;
+//        this.tileManager = tileManager; // השמה כדי להימנע מ-NullPointerException
+//        setDefaultValue();
+//    }
+//
+//
+//    public void setDefaultValue() {
+//        this.x = 25; // מיקום התחלתי
+//        this.y = 175;
+//        this.speed = 5;
+//        this.life = 3;
+//    }
+//
+////    public void getPlayerImage() {
+////        try {
+////            image = ImageIO.read(new File("path/to/playerImage.png")); // טוען את תמונת השחקן
+////        } catch (IOException e) {
+////            e.printStackTrace();
+////        }
+////    }
+//
+////    @Override
+////    public void update() {
+////        if (keyHandler.upPressed) {
+////            y -= speed;
+////            direction = "up";
+////        } else if (keyHandler.downPressed) {
+////            y += speed;
+////            direction = "down";
+////        } else if (keyHandler.leftPressed) {
+////            x -= speed;
+////            direction = "left";
+////        } else if (keyHandler.rightPressed) {
+////            x += speed;
+////            direction = "right";
+////        } else {
+////            direction = "def";
+////        }
+////    }
+//
+////    public boolean isBlocked(int x, int y, String direction ){
+////        int tilenum = tileManager.getMap()[x][y];
+////        int testX =
+////        if (tileManager.tile[tilenum].isBlocked)
+////    }
+//
+//    public void update() {
+//        chooseDirection();
+//        movePlayer();
+//    }
+//
+//
+//    private void chooseDirection() {
+//        if (keyHandler.upPressed) {
+//            resetKeys();
+//            printNextPoint();
+//            direction = "up";
+//        } else if (keyHandler.downPressed) {
+//            resetKeys();
+//            printNextPoint();
+//            direction = "down";
+//        } else if (keyHandler.leftPressed) {
+//            resetKeys();        printNextPoint();
+//            direction = "left";
+//        } else if (keyHandler.rightPressed) {
+//            resetKeys();
+//            printNextPoint();
+//            direction = "right";
+//
+//        }
+//        testGetIndex();
+//    }
+//
+//    // תזוזה בכיוון שנבחר, אם אינו חסום
+////    private void movePlayer() {
+////        switch (direction) {
+////            case "up" -> {
+////                if (isBlocked("up")) {
+////                    y -= speed;
+////                }
+////            }
+////            case "down" -> {
+////                if (isBlocked("down")) {
+////                    y += speed;
+////                }
+////            }
+////            case "left" -> {
+////                if (isBlocked("left")) {
+////                    x -= speed;
+////                }
+////            }
+////            case "right" -> {
+////                if (isBlocked("right")) {
+////                    x += speed;
+////                }
+////            }
+////        }
+////    }
+//
+//    private void movePlayer() {
+//        switch (direction) {
+//            case "up" -> {
+//                if (isBlocked("up")) {
+//                    y -= speed;
+//                }
+////                else if (!isBlocked("up")){
+////                    System.out.println("blocked");
+////                }
+//            }
+//            case "down" -> {
+//                if (isBlocked("down")) {
+//                    y += speed;
+//                }
+////                else if (!isBlocked("down")){
+////                    System.out.println("blocked");
+////                }
+//            }
+//            case "left" -> {
+//                if (isBlocked("left")) {
+//                    x -= speed;
+//                }
+////                else if (!isBlocked("left")){
+////                    System.out.println("blocked");
+////                }
+//            }
+//            case "right" -> {
+//                if (isBlocked("right")) {
+//                    x += speed;
+//                }
+////                else if (!isBlocked("right")){
+////                    System.out.println("blocked");
+////                }
+//            }
+//        }
+////        setMap();
+//        tileAction();
+//
+//    }
+//
+//    public void tileAction() {
+//        int[] num = getNextTileIndex(direction);
+//        int tileNum = tileManager.getMap()[num[1]][num[0]];
+//        Tile tile = tileManager.tile[tileNum];
+//
+//        switch (tile.type) {
+//            case "point" -> {
+//                score += tile.score;
+//                setMap(num);
+//            }
+//            case "tunnel" -> {
+//                actionTunnel(num[0], num[1]);
+//
+//            }
+////            case "wall" -> {
+////            }
+//            default -> {
+//                // אריח רגיל
+//            }
+//        }
+//    }
+//
+////    private void actionTunnel(int tileX, int tileY){
+////         tileManager.getMap()[tileX < gamePanel.maxScreenCol? gamePanel.maxScreenCol - 1 : 0 ][tileY];
+////
+////    }
+////private void actionTunnel(int tileX, int tileY) {
+////    int tileSize = gamePanel.tileSize;
+////
+////    if (tileX == 0) {
+////        // אם השחקן בקצה השמאלי של המסך, מעבירים אותו לקצה הימני
+////        this.x = (gamePanel.maxScreenCol - 1) * tileSize;
+////    } else if (tileX == gamePanel.maxScreenCol - 1) {
+////        // אם השחקן בקצה הימני של המסך, מעבירים אותו לקצה השמאלי
+////        this.x = 0;
+////    }
+////    System.out.println("action");
+////    System.out.println(x);
+////    System.out.println(y);
+////}
+//    public void actionTunnel(int tileX, int tileY){
+//        int tileSize = gamePanel.tileSize;
+//
+//    if (tileY == 0) {
+//        this.x = (gamePanel.screenWidth - tileSize );
+//    } else if (tileY == gamePanel.maxScreenCol - 1) {
+//        // אם השחקן בקצה הימני של המסך, מעבירים אותו לקצה השמאלי
+//        this.x = 0;
+//    }
+//        System.out.println(gamePanel.screenWidth - tileSize );
+//    }
+//
+//
+////    public void tileAction(int[][] tileNum) {
+////        int tileNum = tileManager.getMap()[tileY][tileX];
+////        Tile tile = tileManager.tile[tileNum];
+////
+////        switch (tile.type) {
+////            case "point" -> {
+////                score += tile.score;
+////                tileManager.getMap()[tileY][tileX] = 0; // הפיכת האריח לריק לאחר איסוף
+////            }
+////            case "tunnel" -> {
+////                handleTunnel(tileX, tileY);
+////            }
+////            case "wall" -> {
+////                // במקרה של קיר, בדרך כלל אין פעולה מיוחדת
+////            }
+////            default -> {
+////                // אריח רגיל
+////            }
+////        }
+////    }
+//
+//
+//    public void resetKeys(){
+//        keyHandler.upPressed = false;
+//        keyHandler.downPressed = false;
+//        keyHandler.rightPressed = false;
+//        keyHandler.leftPressed = false;
+//    }
+//
+//    public boolean isBlocked(String direction) {
+//        int tileSize = gamePanel.tileSize;
+//        int leftCol = x / tileSize;
+//        int rightCol = (x + tileSize - 1) / tileSize;
+//        int topRow = y / tileSize;
+//        int bottomRow = (y + tileSize - 1) / tileSize;
+//
+//        switch (direction) {
+//            case "up" -> {
+//                int newTopRow = (y - speed) / tileSize;
+//                return newTopRow >= 0 &&
+//                        (tileManager.tile[tileManager.getMap()[leftCol][newTopRow]].isBlocked ||
+//                                tileManager.tile[tileManager.getMap()[rightCol][newTopRow]].isBlocked);
+//            }
+//            case "down" -> {
+//                int newBottomRow = ((y + tileSize - 1 + speed) / tileSize);
+//                return newBottomRow < gamePanel.maxScreenRow &&
+//                        (tileManager.tile[tileManager.getMap()[leftCol][newBottomRow]].isBlocked ||
+//                                tileManager.tile[tileManager.getMap()[rightCol][newBottomRow]].isBlocked);
+//            }
+//            case "left" -> {
+//                int newLeftCol = (x - speed) / tileSize;
+//                return newLeftCol >= 0 &&
+//                        (tileManager.tile[tileManager.getMap()[newLeftCol][topRow]].isBlocked ||
+//                                tileManager.tile[tileManager.getMap()[newLeftCol][bottomRow]].isBlocked);
+//            }
+//            case "right" -> {
+//                int newRightCol = ((x + tileSize - 1 + speed) / tileSize);
+//                return newRightCol < gamePanel.maxScreenCol &&
+//                        (tileManager.tile[tileManager.getMap()[newRightCol][topRow]].isBlocked ||
+//                                tileManager.tile[tileManager.getMap()[newRightCol][bottomRow]].isBlocked);
+//            }
+//            default -> {
+//                return false;
+//            }
+//        }
+//    }
+//
+//
+//
+//
+////    public boolean isTileBlocked(int row, int col) {
+//////        if (row < 0 || row >= gamePanel.maxScreenRow || col < 0 || col >= gamePanel.maxScreenCol) {
+//////            return true; // מחוץ לגבולות המפה נחשב כחסום
+//////        }
+////        int tileIndex = tileManager.getMap()[col][row];
+////        return tileManager.tile[tileIndex].isBlocked;
+////    }
+////    public boolean isBlocked(String direction) {
+////        int[] nextTileIndex = getNextTileIndex(direction);
+////        return isTileBlocked(nextTileIndex[0], nextTileIndex[1]);
+////    }
+//
+////    public void setMap() {
+////        int[] num = getNextTileIndex(direction);
+////        int currentTileNum = tileManager.getMap()[num[1]][num[0]]; // שינוי לעמודה ושורה לפי אינדקס
+////        if (currentTileNum == 2) {
+////            // פעולה עבור איסוף נקודה
+////            score += tileManager.tile[currentTileNum].score;
+////            tileManager.getMap()[num[1]][num[0]] = 0; // שינוי הערך לאריח רגיל
+////        }
+////    }
+////    public boolean isBlocked(String cha){
+////        return true;
+////    }
+//
+//    public void setMap(int [] num) {
+//
+//            tileManager.getMap()[num[1]][num[0]] = 0; // שינוי הערך לאריח רגיל
+//    }
+//
+//    public int[] getNextTileIndex(String direction) {
+//        int tileSize = gamePanel.tileSize;
+//        int nextRow = y / tileSize;
+//        int nextCol = x / tileSize;
+//
+//        switch (direction) {
+//            case "up" -> nextRow = (y - speed) / tileSize;
+//            case "down" -> nextRow = (y + gamePanel.tileSize - 1 + speed) / tileSize;
+//            case "left" -> nextCol = (x - speed) / tileSize;
+//            case "right" -> nextCol = (x + gamePanel.tileSize - 1 + speed) / tileSize;
+//        }
+//
+//        return new int[]{nextRow, nextCol}; // מחזיר מערך עם השורה והעמודה
+//    }
+////    public addScore(){
+////
+////    }
+//
+//
+//    public void printNextPoint(){
+//        System.out.println(Arrays.toString(getNextTileIndex(direction)));
+//    }
+//
+//
+//
+//
+//    public void getPlayerImages() {
+//        try {
+//            // טוען את התמונות לכל כיוון
+//            upImage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/image/pacman-whole-down.png ")));
+//            downImage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/image/pacman-open-down.png")));
+//            leftImage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/image/pacman-open-left.png")));
+//            rightImage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/image/pacman-open-right.png")));
+//            defImage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/image/pacman-whole-down.png ")));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    @Override
+//    public void draw(Graphics g) {
+//        getPlayerImages();
+//        BufferedImage image = null;
+//        // בוחרים את התמונה המתאימה על פי כיוון התנועה
+//        switch (direction) {
+////            case "up" -> g.drawImage(upImage, x, y, gamePanel.tileSize, gamePanel.tileSize, null);
+////            case "down" -> g.drawImage(downImage, x, y, gamePanel.tileSize, gamePanel.tileSize, null);
+////            case "left" -> g.drawImage(leftImage, x, y, gamePanel.tileSize, gamePanel.tileSize, null);
+////            case "right" -> g.drawImage(rightImage, x, y, gamePanel.tileSize, gamePanel.tileSize, null);
+////            case "def" -> g.setColor(Color.WHITE); // צבע ברירת מחדל
+//            case "up" -> image = upImage ;
+//            case "down" -> image = downImage ;
+//            case "left" -> image = leftImage ;
+//            case "right" -> image = rightImage ;
+//            case "def" -> image = defImage; // צבע ברירת מחדל
+////            case "def" -> g.setColor(Color.WHITE); // צבע ברירת מחדל
+//
+//        }
+//        g.drawImage(image, x, y, gamePanel.tileSize - 5, gamePanel.tileSize - 5, null);
+////        g.fillRect(x, y, gamePanel.tileSize, gamePanel.tileSize);
+//    }
+//
+////    @Override
+////    public void draw(Graphics g) {
+////
+////        switch (direction) {
+//////            case "up" -> g.setColor(Color.RED);
+////            case "up" -> g.setColor(Color.RED);
+////            case "down" -> g.setColor(Color.BLUE);
+////            case "left" -> g.setColor(Color.GREEN);
+////            case "right" -> g.setColor(Color.YELLOW);
+////            case "def" -> g.setColor(Color.WHITE); // צבע ברירת מחדל
+////        }
+////
+////        g.fillRect(x, y, gamePanel.tileSize , gamePanel.tileSize ); // ציור ריבוע לבן
+////
+////    }
+//
+////    private void movePlayer() {
+////        switch (direction) {
+////            case "up" -> {
+////                if (isBlocked("up")) {
+////                    y -= speed;
+////                }else if (!isBlocked("up")){
+////                    System.out.println("blocked");
+////                }
+////            }
+////            case "down" -> {
+////                if (isBlocked("down")) {
+////                    y += speed;
+////                }else if (!isBlocked("down")){
+////                    System.out.println("blocked");
+////                }
+////            }
+////            case "left" -> {
+////                if (isBlocked("left")) {
+////                    x -= speed;
+////                }else if (!isBlocked("left")){
+////                    System.out.println("blocked");
+////                }
+////            }
+////            case "right" -> {
+////                if (isBlocked("right")) {
+////                    x += speed;
+////                }else if (!isBlocked("right")){
+////                    System.out.println("blocked");
+////                }
+////            }
+////        }
+//
+////    public void testGetIndex(){
+////        int row;
+////        int col;
+////        int tileSize = gamePanel.tileSize;
+////       if (direction.equals("up")) {
+////             row = (y - speed) / tileSize;
+////           System.out.println(tileManager.getMap()[x / tileSize][row]);
+////           int num = tileManager.getMap()[(x + tileSize - 1) / tileSize][row];
+////           System.out.println("getMap" +tileManager.tile[num].type );
+////        } else if (direction.equals("down")) {
+////           row = (y + tileSize + speed) / tileSize;
+////           int num = tileManager.getMap()[(x + tileSize - 1) / tileSize][row];
+////           int num1 = tileManager.getMap()[x / tileSize][row];
+//////           System.out.println((y + tileSize + speed) + "/ " + tileSize + " = " + row  );
+//////           System.out.println("row: " + row);
+//////           System.out.println("col: " + x / tileSize);
+//////           System.out.println("num1: "+ num1);
+//////           System.out.println("[" + x / tileSize + ", " + row + "]");
+////           System.out.println("type" + tileManager.tile[num1].type);
+////           System.out.println("type1" + tileManager.tile[num].type);
+//////           System.out.println("test" + tileManager.getMap()[1][9]);
+////       } else if (direction.equals("right")) {
+////           row = (x + tileSize + speed) / tileSize;
+////           int num = tileManager.getMap()[row][(y + tileSize - 1) / tileSize];
+////           int num1 = tileManager.getMap()[row][y / tileSize];
+////           System.out.println("type" + tileManager.tile[num1].type);
+////           System.out.println("type1" + tileManager.tile[num].type);
+////       } else if (direction.equals("left")) {
+////           row = (x - speed) / tileSize;
+////           int num = tileManager.getMap()[row][(y + tileSize - 1) / tileSize];
+////           int num1 = tileManager.getMap()[row][y / tileSize];
+////           System.out.println("type" + tileManager.tile[num1].type);
+////           System.out.println("type1" + tileManager.tile[num].type);
+////       }
+////    }
+//public void testGetIndex() {
+//    int row, col;
+//    int tileSize = gamePanel.tileSize;
+//
+//    if (direction.equals("up")) {
+//        row = (y - speed) / tileSize;
+//        int numLeft = tileManager.getMap()[x / tileSize][row];
+//        int numRight = tileManager.getMap()[(x + tileSize - 1) / tileSize][row];
+//
+////        System.out.println("Tile Left: " + tileManager.tile[numLeft].type);
+////        System.out.println("Tile Right: " + tileManager.tile[numRight].type);
+//
+//        if (numLeft != numRight) {
+//            System.out.println("Mismatch! Left and Right tiles are different.");
+//        }
+//    } else if (direction.equals("down")) {
+//        row = (y + tileSize + speed) / tileSize;
+//        int numLeft = tileManager.getMap()[x / tileSize][row];
+//        int numRight = tileManager.getMap()[(x + tileSize - 1) / tileSize][row];
+//
+////        System.out.println("Tile Left: " + tileManager.tile[numLeft].type);
+////        System.out.println("Tile Right: " + tileManager.tile[numRight].type);
+//
+//        if (numLeft != numRight) {
+//            System.out.println("Mismatch! Left and Right tiles are different.");
+//        }
+//    } else if (direction.equals("right")) {
+//        col = (x + tileSize + speed) / tileSize;
+//        int numTop = tileManager.getMap()[col][y / tileSize];
+//        int numBottom = tileManager.getMap()[col][(y + tileSize - 1) / tileSize];
+//
+////        System.out.println("Tile Top: " + tileManager.tile[numTop].type);
+////        System.out.println("Tile Bottom: " + tileManager.tile[numBottom].type);
+//
+//        if (numTop != numBottom) {
+//            System.out.println("Mismatch! Top and Bottom tiles are different.");
+//        }
+//    } else if (direction.equals("left")) {
+//        col = (x - speed) / tileSize;
+//        int numTop = tileManager.getMap()[col][y / tileSize];
+//        int numBottom = tileManager.getMap()[col][(y + tileSize - 1) / tileSize];
+//
+////        System.out.println("Tile Top: " + tileManager.tile[numTop].type);
+////        System.out.println("Tile Bottom: " + tileManager.tile[numBottom].type);
+//
+//        if (numTop != numBottom) {
+//            System.out.println("Mismatch! Top and Bottom tiles are different.");
+//        }
+//    }
+//}
+//
+//}
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
